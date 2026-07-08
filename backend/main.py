@@ -35,3 +35,20 @@ def add_student(student:Student):
         "student":student
         
     }
+@app.get("/student/{name}/{cgpa}")
+def get_student(name: str,cgpa:float):
+    return {
+        "student_name": name,
+        "cgpa":cgpa
+    }
+@app.get("/search")
+def search(skill:str):
+    return {
+        "search_skill":skill
+    }
+@app.get("/filter")
+def filter_students(skill:str,cgpa:float):
+    return {
+        "skill":skill,
+        "cgpa":cgpa
+    }

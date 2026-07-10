@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 class Student(BaseModel):
     name:str
@@ -79,4 +79,22 @@ def filter_students(skill:str,cgpa:float):
     return {
         "skill":skill,
         "cgpa":cgpa
+    }
+@app.post("/upload-resume")
+async def upload_resume(
+    file: UploadFile = File(...)
+):
+
+    contents = await file.read()
+
+    with open(
+        f"uploads/{file.filename}",
+        "wb"
+    ) as f:
+
+        f.write(contents)
+
+    return {
+        "message": "Resume uploaded successfully",
+        "filename": file.filename
     }

@@ -1,5 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
+import fitz 
+LATEST_RESUME = ""
 class Student(BaseModel):
     name:str
     college:str
@@ -93,8 +95,30 @@ async def upload_resume(
     ) as f:
 
         f.write(contents)
+    global LATEST_RESUME
+    LATEST_RESUME = file.filename
 
     return {
         "message": "Resume uploaded successfully",
         "filename": file.filename
+    }
+@app.get("/extract-resume")
+def extract_resume():
+
+    if LATEST_RESUME == "":
+        return {
+            "message": "No resume uploaded yet"
+        }
+
+    doc = fitz.open(
+        f"uploads/{LATEST_RESUME}"
+    )
+
+    text = ""
+
+    for page in doc:
+        text += page.get_text()
+
+    return {
+        "resume_text": text
     }

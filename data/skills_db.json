@@ -1,0 +1,35 @@
+{
+    "Programming Languages": [
+        "C",
+        "C++",
+        "Python",
+        "Java",
+        "JavaScript"
+    ],
+    "Web Development": [
+        "HTML",
+        "CSS",
+        "React",
+        "FastAPI",
+        "Node.js"
+    ],
+    "Databases": [
+        "SQL",
+        "MySQL",
+        "MongoDB",
+        "PostgreSQL"
+    ],
+    "Core Subjects": [
+        "DBMS",
+        "Operating Systems",
+        "OOP",
+        "Computer Networks"
+    ],
+    "AI/ML": [
+        "Machine Learning",
+        "Deep Learning",
+        "TensorFlow",
+        "PyTorch",
+        "NLP"
+    ]
+}

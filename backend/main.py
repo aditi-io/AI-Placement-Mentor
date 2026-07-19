@@ -13,6 +13,7 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "Welcome to AI Placement Mentor"}
+    
 @app.get("/profile")
 def profile():
     return {
@@ -20,6 +21,7 @@ def profile():
         "college": "BIT Patna",
         "cgpa": 8.92
     }
+    
 @app.get("/skills")
 def skills():
     return {
@@ -29,6 +31,7 @@ def skills():
                     "AI"
                     ]
     }
+    
 @app.post("/profile")
 def create_profile(student:Student):
     if student.cgpa>=8.5:

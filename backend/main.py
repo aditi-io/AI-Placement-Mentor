@@ -68,6 +68,7 @@ def create_profile(student:Student):
         "missing_skill" : missing,
         "roadmap" : roadmap
     }
+    
 @app.get("/student/{name}/{cgpa}")
 def get_student(name: str,cgpa:float):
     return {

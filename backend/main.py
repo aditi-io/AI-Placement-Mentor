@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 import fitz 
+
 LATEST_RESUME = ""
 class Student(BaseModel):
     name:str
@@ -106,6 +107,7 @@ async def upload_resume(
         "message": "Resume uploaded successfully",
         "filename": file.filename
     }
+    
 @app.get("/extract-resume")
 def extract_resume():
 

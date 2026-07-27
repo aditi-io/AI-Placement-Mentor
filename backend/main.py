@@ -3,6 +3,7 @@ from pydantic import BaseModel
 import fitz 
 
 LATEST_RESUME = ""
+
 class Student(BaseModel):
     name:str
     college:str

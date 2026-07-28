@@ -77,6 +77,7 @@ def get_student(name: str,cgpa:float):
         "student_name": name,
         "cgpa":cgpa
     }
+    
 @app.get("/search")
 def search(skill:str):
     return {

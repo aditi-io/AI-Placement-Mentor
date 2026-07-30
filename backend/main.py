@@ -83,12 +83,14 @@ def search(skill:str):
     return {
         "search_skill":skill
     }
+    
 @app.get("/filter")
 def filter_students(skill:str,cgpa:float):
     return {
         "skill":skill,
         "cgpa":cgpa
     }
+    
 @app.post("/upload-resume")
 async def upload_resume(
     file: UploadFile = File(...)

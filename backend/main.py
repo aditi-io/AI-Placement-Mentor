@@ -92,6 +92,7 @@ def filter_students(skill:str,cgpa:float):
     }
     
 @app.post("/upload-resume")
+
 async def upload_resume(
     file: UploadFile = File(...)
 ):

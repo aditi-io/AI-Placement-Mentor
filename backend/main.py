@@ -43,7 +43,6 @@ def create_profile(student:Student):
     else:
         level = "Needs Improvement"
     required=["Python","SQL","DSA"]
-
     missing=[]
     for skill in required:
         if skill not in student.skills:

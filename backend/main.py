@@ -2,9 +2,12 @@ from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 import fitz
 from google import genai
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 client = genai.Client(
-    api_key=""
+    api_key=os.getenv("GEMINI_API_KEY")
 )
 
 LATEST_RESUME = ""

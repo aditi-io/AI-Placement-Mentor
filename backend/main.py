@@ -1,6 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
-import fitz 
+import fitz
+from google import genai
+
+client = genai.Client(
+    api_key=""
+)
 
 LATEST_RESUME = ""
 
@@ -132,3 +137,82 @@ def extract_resume():
     return {
         "resume_text": text
     }
+<<<<<<< HEAD
+=======
+
+@app.get("/test-gemini")
+def test_gemini():
+
+    try:
+        response = client.models.generate_content(
+            model="gemini-3.6-flash",
+            contents="Say hello to Aditi"
+        )
+
+        return {
+            "response": response.text
+        }
+
+    except Exception as e:
+        return {
+            "error": str(e)
+        }
+@app.get("/analyze-resume")
+def analyze_resume():
+
+    if LATEST_RESUME == "":
+        return {
+            "message": "No resume uploaded yet"
+        }
+
+    doc = fitz.open(
+        f"uploads/{LATEST_RESUME}"
+    )
+
+    text = ""
+
+    for page in doc:
+        text += page.get_text()
+
+    response = client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents=f"""
+        Analyze this resume.
+
+        Return ONLY in this format:
+
+        Placement Score: <score>/100
+
+        Strengths:
+        - ...
+
+        Weaknesses:
+        - ...
+
+        Missing Skills:
+        - ...
+
+        Learning Roadmap:
+        Week 1:
+        ...
+
+        Week 2:
+        ...
+
+        Week 3:
+        ...
+
+        Week 4:
+        ...
+
+        Resume:
+
+        {text}
+        """
+        
+    )
+
+    return {
+        "analysis": response.text
+    }
+>>>>>>> 92e4359 (Added Gemini resume analysis)

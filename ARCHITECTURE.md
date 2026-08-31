@@ -5,7 +5,6 @@
 - Resume Upload UI
 - Dashboard
 - Interview Interface
-- Fontend
 
 
 ## Backend

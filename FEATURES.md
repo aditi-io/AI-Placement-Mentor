@@ -8,7 +8,7 @@
 ## Skill Analysis
 - Skill Gap Detection
 - Missing Technologies Identification
-- Company-wise Requirement Analysis
+- Company-wise Requirement Analysises
 
 ## Roadmap Generation
 - Personalized Learning Roadmap

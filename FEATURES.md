@@ -5,6 +5,7 @@
 - Resume Parsing
 - Resume Score Generation
 
+
 ## Skill Analysis
 - Skill Gap Detection
 - Missing Technologies Identification

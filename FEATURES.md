@@ -3,7 +3,7 @@
 ## Resume Module
 - Resume Upload
 - Resume Parsing
-- Resume Score Generation
+- Resume Score Generations
 
 
 ## Skill Analysis

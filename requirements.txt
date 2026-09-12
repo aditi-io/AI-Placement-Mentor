@@ -5,4 +5,5 @@ python-multipart
 PyPDF2
 langchain
 faiss-cpu
+
 openai

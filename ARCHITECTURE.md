@@ -6,7 +6,6 @@
 - Dashboard
 - Interview Interface
 
-
 ## Backend
 - Resume Parser Service
 - Skill Analyzer

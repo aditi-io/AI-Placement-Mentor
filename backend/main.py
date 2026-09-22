@@ -13,7 +13,6 @@ client = genai.Client(
 
 LATEST_RESUME = ""
 
-
 class Student(BaseModel):
     name:str
     college:str

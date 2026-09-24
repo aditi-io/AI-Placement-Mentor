@@ -6,6 +6,7 @@
 - Resume Score Generations
 
 
+
 ## Skill Analysis
 - Skill Gap Detection
 - Missing Technologies Identification

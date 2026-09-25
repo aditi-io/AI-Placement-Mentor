@@ -142,8 +142,7 @@ def extract_resume():
     return {
         "resume_text": text
     }
-<<<<<<< HEAD
-=======
+
 
 @app.get("/test-gemini")
 def test_gemini():
@@ -220,4 +219,4 @@ def analyze_resume():
     return {
         "analysis": response.text
     }
->>>>>>> 92e4359 (Added Gemini resume analysis)
+

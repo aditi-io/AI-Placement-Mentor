@@ -4,6 +4,7 @@ import fitz
 from google import genai
 from dotenv import load_dotenv
 import os
+import joblib
 
 load_dotenv()
 
@@ -12,94 +13,27 @@ client = genai.Client(
 )
 
 LATEST_RESUME = ""
-
-class Student(BaseModel):
-    name:str
-    college:str
-    cgpa:float
-    skills:list[str]
+placement_model = joblib.load(
+    "models/placement_model.pkl"
+)
+class ScoreInput(BaseModel):
+    cgpa: float
+    projects: int
+    dsa: int
+    internship: int
+class ProfileInput(BaseModel):
+    cgpa: float
+    projects: int
+    dsa: int
+    internship: int
 
 app = FastAPI()
 
 @app.get("/")
 def home():
     return {"message": "Welcome to AI Placement Mentor"}
-    
-@app.get("/profile")
-def profile():
-    return {
-        "name": "Aditi",
-        "college": "BIT Patna",
-        "cgpa": 8.92
-    }
-    
-@app.get("/skills")
-def skills():
-    return {
-        "skills" : ["Python",
-                    "DSA",
-                    "SQL",
-                    "AI"
-                    ]
-    }
-    
-@app.post("/profile")
-def create_profile(student:Student):
-    if student.cgpa>=8.5:
-        level = "Excellent"
-    elif student.cgpa>=7:
-        level = "Good"
-    else:
-        level = "Needs Improvement"
-    required=["Python","SQL","DSA"]
-    missing=[]
-    for skill in required:
-        if skill not in student.skills:
-            missing.append(skill)
-
-    roadmap = []
-
-    for skill in missing:
-        if skill == "Python":
-            roadmap.append("Complete Python Fundamentals")
-
-        elif skill == "SQL":
-            roadmap.append("Learn SQL Joins and Queries")
-
-        elif skill == "DSA":
-            roadmap.append("Practice Striver A2Z Sheet")
-            
-    return {
-        "name" : student.name,
-        "college" : student.college,
-        "cgpa" : student.cgpa,
-        "skills" : student.skills,
-        "level" : level,
-        "missing_skill" : missing,
-        "roadmap" : roadmap
-    }
 
 
-@app.get("/student/{name}/{cgpa}")
-def get_student(name: str,cgpa:float):
-    return {
-        "student_name": name,
-        "cgpa":cgpa
-    }
-    
-@app.get("/search")
-def search(skill:str):
-    return {
-        "search_skill":skill
-    }
-    
-@app.get("/filter")
-def filter_students(skill:str,cgpa:float):
-    return {
-        "skill":skill,
-        "cgpa":cgpa
-    }
-    
 @app.post("/upload-resume")
 
 async def upload_resume(
@@ -143,24 +77,6 @@ def extract_resume():
         "resume_text": text
     }
 
-
-@app.get("/test-gemini")
-def test_gemini():
-
-    try:
-        response = client.models.generate_content(
-            model="gemini-3.6-flash",
-            contents="Say hello to Aditi"
-        )
-
-        return {
-            "response": response.text
-        }
-
-    except Exception as e:
-        return {
-            "error": str(e)
-        }
 @app.get("/analyze-resume")
 def analyze_resume():
 
@@ -219,4 +135,56 @@ def analyze_resume():
     return {
         "analysis": response.text
     }
+@app.post("/predict-score")
+def predict_score(data: ScoreInput):
 
+    score = placement_model.predict([
+        [
+            data.cgpa,
+            data.projects,
+            data.dsa,
+            data.internship
+        ]
+    ])[0]
+
+    return {
+        "placement_score": round(score, 2)
+    }
+@app.post("/analyze-profile")
+def analyze_profile(data: ProfileInput):
+
+    score = placement_model.predict([
+        [
+            data.cgpa,
+            data.projects,
+            data.dsa,
+            data.internship
+        ]
+    ])[0]
+
+    response = client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents=f"""
+        Student Profile:
+
+        CGPA: {data.cgpa}
+        Projects: {data.projects}
+        DSA: {data.dsa}
+        Internship: {data.internship}
+
+        ML Placement Score: {round(score,2)}
+
+        Give:
+
+        1. Placement Readiness
+        2. Strengths
+        3. Weaknesses
+        4. Missing Skills
+        5. 4 Week Learning Roadmap
+        """
+    )
+
+    return {
+        "placement_score": round(score, 2),
+        "analysis": response.text
+    }
